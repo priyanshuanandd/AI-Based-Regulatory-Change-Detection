@@ -1,8 +1,37 @@
-﻿# 📄AI-Based Regulatory Change Detection
+# 📄 AI-Based Regulatory Change Detection
+
+An AI-powered solution designed to automate regulatory document change analysis and impact assessment for Quality Assurance and Regulatory Affairs teams.
+
+## 🎯 Problem Statement
+
+### The Challenge
+Currently, Quality Assurance and Regulatory Affairs teams must manually compare new document versions with older ones, line by line. This process is:
+- **Time-consuming**: Hours of manual review for each document update
+- **Tedious**: Repetitive line-by-line comparison work
+- **Error-prone**: Human oversight can miss critical changes
+- **High-risk**: Missing a single change can lead to non-compliance, audit findings, and significant business risk
+
+After identifying changes, teams must then assess how those changes impact their internal procedures (SOPs), requiring further manual analysis.
+
+### The Solution
+This AI-powered tool automates the initial steps of regulatory document comparison by:
+- **Automatically identifying** what has changed between document versions
+- **Providing intelligent impact analysis** of detected changes
+- **Categorizing changes** by type and significance
+- **Streamlining the review process** for compliance teams
+
+## 🚀 Mission Accomplished
 
 A comprehensive document analysis system that identifies and analyzes differences between document versions using AI-powered insights. Perfect for regulatory documents, contracts, policies, and any text-based content that requires detailed change tracking.
 
 ## ✨ Features
+
+### Addressing Regulatory Compliance Needs
+- **Automated Change Detection**: Eliminate manual line-by-line comparison
+- **Risk Mitigation**: Comprehensive analysis reduces chance of missing critical changes
+- **Compliance Support**: Structured categorization for audit trail documentation
+- **Impact Assessment**: AI-powered evaluation of change significance
+- **Time Savings**: Reduce document review time from hours to minutes
 
 ### Core Functionality
 - **Section-Level Comparison**: Identifies added, deleted, and modified sections
@@ -53,8 +82,13 @@ document-comparison-tool/
 │   │   └── modified_ai.py
 │   └── __pycache__/
 ├── requirements.txt
-├── text_v1.txt             # Sample document (original)
-├── text_v2.txt             # Sample document (updated)
+## 📊 Sample Data Included
+
+The project includes two sample regulatory document files to demonstrate functionality:
+- **`text_v1.txt`**: Snippet from an older version of a regulatory guideline
+- **`text_v2.txt`**: Snippet from a newer version with identified changes
+
+These files can be used immediately to test the tool's capabilities and understand its output format.
 └── README.md
 ```
 
@@ -134,7 +168,7 @@ streamlit run main.py
 ```python
 import requests
 
-# Compare sections
+# Compare sections using provided sample files
 files = {
     'old_version': open('text_v1.txt', 'rb'),
     'new_version': open('text_v2.txt', 'rb')
@@ -142,6 +176,29 @@ files = {
 response = requests.post('http://localhost:8000/compare/sections', files=files)
 results = response.json()
 ```
+
+### Testing with Sample Data
+
+1. **Use Provided Files**: Load `text_v1.txt` and `text_v2.txt` to see the tool in action
+2. **Follow Complete Workflow**: Execute all 4 analysis steps to see comprehensive results
+3. **Review Impact Assessment**: Examine AI-generated change categorization and impact analysis
+4. **Understand Output Format**: See how results would appear for your regulatory documents
+
+## 🎯 For Regulatory Affairs Teams
+
+### Business Impact
+- **Reduced Review Time**: Automate the most time-consuming part of document comparison
+- **Improved Accuracy**: AI-powered analysis reduces human error risk
+- **Audit Preparedness**: Structured documentation of all changes and their impacts
+- **Compliance Confidence**: Comprehensive analysis ensures no changes are missed
+- **Resource Optimization**: Free up expert time for higher-value compliance activities
+
+### Change Categories Detected
+- **New Requirements**: Completely new regulatory obligations
+- **Clarifications**: Updates that clarify existing requirements
+- **Stricter Requirements**: Changes that make compliance more demanding
+- **Looser Requirements**: Changes that relax previous restrictions
+- **Minor Edits**: Formatting, typos, or non-substantive changes
 
 ## 🔧 Configuration
 
