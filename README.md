@@ -50,7 +50,7 @@ A comprehensive document analysis system that identifies and analyzes difference
 4. **Modified Content Analysis**: Impact assessment of changed sections
 
 ## 🏗️ Architecture
-![image.png](https://postimg.cc/GHGKVNfX)
+<img src="https://i.postimg.cc/GHGKVNfX/image.png" width="45%">
 The project consists of two main components:
 
 ### Backend (FastAPI)
@@ -58,7 +58,8 @@ The project consists of two main components:
 - Integration with local LLM (Ollama)
 - Advanced text preprocessing and comparison algorithms
 - Structured data models using Pydantic
-![Screenshot-2025-06-08-143813.png](https://postimg.cc/nC4K0ms5)
+<img src="https://i.postimg.cc/nC4K0ms5/Screenshot-2025-06-08-143813.png" width="45%">
+
 ### Frontend (Streamlit)
 - Interactive web interface
 - Progressive workflow with step-by-step guidance
