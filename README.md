@@ -1,17 +1,15 @@
-# 📄 AI-Based Regulatory Change Detection
+# AI-Based Regulatory Change Detection
 
 An AI-powered solution designed to automate regulatory document change analysis and impact assessment for Quality Assurance and Regulatory Affairs teams.
 
-## 🎯 Problem Statement
+## Problem Statement
 
 ### The Challenge
-Currently, Quality Assurance and Regulatory Affairs teams must manually compare new document versions with older ones, line by line. This process is:
-- **Time-consuming**: Hours of manual review for each document update
-- **Tedious**: Repetitive line-by-line comparison work
-- **Error-prone**: Human oversight can miss critical changes
-- **High-risk**: Missing a single change can lead to non-compliance, audit findings, and significant business risk
-
-After identifying changes, teams must then assess how those changes impact their internal procedures (SOPs), requiring further manual analysis.
+Manual document comparison is slow, tedious, error-prone, and risky. This tool:
+- Detects changes between document versions
+- Assesses their impact using AI
+- Categorizes and summarizes changes
+- Streamlines compliance review
 
 ### The Solution
 This AI-powered tool automates the initial steps of regulatory document comparison by:
@@ -20,33 +18,23 @@ This AI-powered tool automates the initial steps of regulatory document comparis
 - **Categorizing changes** by type and significance
 - **Streamlining the review process** for compliance teams
 
-## 🚀 Mission Accomplished
-
 A comprehensive document analysis system that identifies and analyzes differences between document versions using AI-powered insights. Perfect for regulatory documents, contracts, policies, and any text-based content that requires detailed change tracking.
 
-## ✨ Features
+## Features
 ### User Interface 
 [![Screenshot-8-6-2025-141647-localhost.jpg](https://i.postimg.cc/Y9qBHfxp/Screenshot-8-6-2025-141647-localhost.jpg)](https://postimg.cc/kVZpNSZZ)
 [![Screenshot-8-6-2025-141720-localhost.jpg](https://i.postimg.cc/Qd13kMtr/Screenshot-8-6-2025-141720-localhost.jpg)](https://postimg.cc/pmW4PRz0)
-### Addressing Regulatory Compliance Needs
-- **Automated Change Detection**: Eliminate manual line-by-line comparison
-- **Risk Mitigation**: Comprehensive analysis reduces chance of missing critical changes
-- **Compliance Support**: Structured categorization for audit trail documentation
-- **Impact Assessment**: AI-powered evaluation of change significance
-- **Time Savings**: Reduce document review time from hours to minutes
-
-### Core Functionality
-- **Section-Level Comparison**: Identifies added, deleted, and modified sections
-- **Paragraph-Level Analysis**: Detailed paragraph changes with similarity scoring
-- **AI-Powered Analysis**: Intelligent categorization and summarization of changes
-- **Sequential Workflow**: Guided step-by-step analysis process
-- **Interactive Web Interface**: User-friendly Streamlit frontend
+### Key Functions
+- Section & Paragraph Comparison
+- AI-Powered Change Categorization
+- Step-by-Step Workflow in Streamlit
+- REST API with FastAPI backend
 
 ### Analysis Types
-1. **Section Comparison**: Detect structural changes between document versions
-2. **Paragraph Analysis**: Fine-grained text modifications within sections
-3. **Added Content Analysis**: AI categorization of new sections
-4. **Modified Content Analysis**: Impact assessment of changed sections
+1. Section Comparison
+2. Paragraph Comparison
+3. Added Content AI Analysis
+4. Modified Content AI Analysis
 
 ## 🏗️ Architecture
 [![image.png](https://i.postimg.cc/YqyPGBzB/image.png)](https://postimg.cc/GHGKVNfX)The project consists of two main components:
@@ -185,23 +173,16 @@ results = response.json()
 3. **Review Impact Assessment**: Examine AI-generated change categorization and impact analysis
 4. **Understand Output Format**: See how results would appear for your regulatory documents
 
-## 🎯 For Regulatory Affairs Teams
 
-### Business Impact
-- **Reduced Review Time**: Automate the most time-consuming part of document comparison
-- **Improved Accuracy**: AI-powered analysis reduces human error risk
-- **Audit Preparedness**: Structured documentation of all changes and their impacts
-- **Compliance Confidence**: Comprehensive analysis ensures no changes are missed
-- **Resource Optimization**: Free up expert time for higher-value compliance activities
+## Output
 
-### Change Categories Detected
-- **New Requirements**: Completely new regulatory obligations
-- **Clarifications**: Updates that clarify existing requirements
-- **Stricter Requirements**: Changes that make compliance more demanding
-- **Looser Requirements**: Changes that relax previous restrictions
-- **Minor Edits**: Formatting, typos, or non-substantive changes
+- Section/Paragraph differences
+- Change Type (e.g., New, Stricter, Minor)
+- Impact Level (Low, Medium, High)
+- Similarity Scores
 
-## 🔧 Configuration
+
+## Configuration
 
 ### LLM Settings
 Modify `llm_utility.py` to customize AI analysis:
@@ -256,17 +237,6 @@ MODEL_NAME = "tinyllama"  # Change to your preferred model
 - MD5-based cache key generation
 - Optimized for repeated comparisons
 
-## 🛠️ Development
-
-### Adding New Analysis Types
-
-1. **Extend Backend**: Add new endpoints in `main.py`
-2. **Update Utilities**: Modify comparison logic in `difference_utility.py`
-3. **Frontend Integration**: Add new formatters and UI components
-4. **AI Enhancement**: Extend LLM prompts in `llm_utility.py`
-
-### Custom Formatting
-Create new formatters in `frontend/formatters/` for specialized output formats.
 
 ## 📋 Dependencies
 
@@ -280,46 +250,3 @@ Create new formatters in `frontend/formatters/` for specialized output formats.
 ### Frontend  
 - Streamlit
 - Requests
-
-## 🚨 Troubleshooting
-
-### Common Issues
-
-1. **Ollama Connection Error**
-   - Ensure Ollama is running: `ollama serve`
-   - Verify model availability: `ollama list`
-
-2. **File Upload Issues**
-   - Check file format (only `.txt` supported)
-   - Verify file encoding (UTF-8 required)
-
-3. **API Connection Problems**
-   - Confirm backend is running on port 8000
-   - Check firewall settings
-
-### Performance Tips
-- Use smaller documents for faster processing
-- Consider model size vs. accuracy trade-offs
-- Monitor system resources during AI analysis
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- Built with [FastAPI](https://fastapi.tiangolo.com/) and [Streamlit](https://streamlit.io/)
-- AI analysis powered by [Ollama](https://ollama.ai/)
-- Text comparison using Python's `difflib`
-
----
-
-For more information or support, please open an issue on the repository.
