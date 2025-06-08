@@ -17,8 +17,8 @@ def analyze_changes_with_llm(sections: List[SectionChange]) -> List[Dict]:
     def create_prompt(section: SectionChange) -> str:
         return f"""
         Analyze this regulatory document change and return JSON with:
-        - change_summary: One-sentence summary of the change
-        - change_type: Categorize as "New Requirement", "Clarification of Existing Requirement", 
+        - change_summary: One-sentence summary of the change different from change_type
+        - change_type: Categorize the change as one of the following "New Requirement", "Clarification of Existing Requirement", 
                       "Deletion of Requirement", or "Minor Edit"
 
         Section Title: {section.title}
@@ -91,7 +91,7 @@ def analyze_modified_sections(modified_sections: Dict[str, Dict[str, str]]) -> D
         for section_id, content in modified_sections.items()
     ]
 
-    def create_diff_prompt(batch: List[Tuple[str, str, str]]) -> str:
+    def create_diff_prompt(batch: List[tuple[str, str, str]]) -> str:
         prompt = """Analyze these regulatory document changes and return a JSON array where each item contains:
         - "section_id": Original section identifier
         - "change_summary": One-sentence summary of the modification
