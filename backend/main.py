@@ -5,14 +5,10 @@ from difference_utility import (
     ParagraphComparisonResult,
     compare_sections,
     analyze_paragraph_changes,
-    generate_cache_key
 )
-from llm_utility import analyze_added_sections,analyze_modified_sections
+from llm_utility import analyze_added_sections, analyze_modified_sections
 
 app = FastAPI()
-
-# In-memory cache (replace with Redis in production)
-document_cache = {}
 
 @app.post("/compare/sections", response_model=SectionComparisonResult)
 async def compare_sections_endpoint(
@@ -24,24 +20,12 @@ async def compare_sections_endpoint(
         old_text = (await old_version.read()).decode('utf-8')
         new_text = (await new_version.read()).decode('utf-8')
         
-        cache_key = generate_cache_key(old_text, new_text)
-        if cache_key in document_cache:
-            return document_cache[cache_key]['section_result']
-        
         comparison = compare_sections(old_text, new_text)
         
-        # Store intermediate results for paragraph analysis
-        document_cache[cache_key] = {
-            'section_result': SectionComparisonResult(
-                added_sections=comparison['added_sections'],
-                deleted_sections=comparison['deleted_sections']
-            ),
-            'common_sections': comparison['common_sections'],
-            'old_section_map': comparison['old_section_map'],
-            'new_section_map': comparison['new_section_map']
-        }
-        
-        return document_cache[cache_key]['section_result']
+        return SectionComparisonResult(
+            added_sections=comparison['added_sections'],
+            deleted_sections=comparison['deleted_sections']
+        )
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -56,26 +40,18 @@ async def compare_paragraphs_endpoint(
         old_text = (await old_version.read()).decode('utf-8')
         new_text = (await new_version.read()).decode('utf-8')
         
-        cache_key = generate_cache_key(old_text, new_text)
-        if cache_key not in document_cache:
-            # Ensure section comparison was done first
-            await compare_sections_endpoint(
-                UploadFile(filename="old.txt", file=old_version.file),
-                UploadFile(filename="new.txt", file=new_version.file)
-            )
-        
-        cache_data = document_cache[cache_key]
+        comparison = compare_sections(old_text, new_text)
         results = {}
         
         # Filter sections to analyze if specified
-        sections_to_analyze = section_filter if section_filter else cache_data['common_sections']
+        sections_to_analyze = section_filter if section_filter else comparison['common_sections']
         
         for section_id in sections_to_analyze:
-            if section_id not in cache_data['common_sections']:
+            if section_id not in comparison['common_sections']:
                 continue
             
-            old_content = cache_data['old_section_map'][section_id]
-            new_content = cache_data['new_section_map'][section_id]
+            old_content = comparison['old_section_map'][section_id]
+            new_content = comparison['new_section_map'][section_id]
             
             if old_content != new_content:
                 para_results = analyze_paragraph_changes(old_content, new_content)
@@ -87,8 +63,7 @@ async def compare_paragraphs_endpoint(
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "cache_size": len(document_cache)}
-
+    return {"status": "healthy"}
 
 @app.post("/added/ai", response_model=List[Dict])
 async def analyze_added_sections_with_ai(
@@ -102,16 +77,8 @@ async def analyze_added_sections_with_ai(
         old_text = (await old_version.read()).decode('utf-8')
         new_text = (await new_version.read()).decode('utf-8')
         
-        cache_key = generate_cache_key(old_text, new_text)
-        if cache_key not in document_cache:
-            # Ensure section comparison was done first
-            await compare_sections_endpoint(
-                UploadFile(filename="old.txt", file=old_version.file),
-                UploadFile(filename="new.txt", file=new_version.file)
-            )
-        
-        cache_data = document_cache[cache_key]
-        added_sections = cache_data['section_result'].added_sections
+        comparison = compare_sections(old_text, new_text)
+        added_sections = comparison['added_sections']
         
         # Analyze added sections with LLM
         analysis_results = analyze_added_sections(added_sections)
@@ -128,14 +95,11 @@ async def analyze_added_sections_with_ai(
         return results
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-    
-
 
 @app.post("/modified/ai", response_model=Dict[str, Dict])
 async def analyze_modified_sections_with_ai(
     old_version: UploadFile = File(...),
-    new_version: UploadFile = File(...),
-    batch_size: int =3
+    new_version: UploadFile = File(...)
 ):
     """
     Analyze modified sections with AI
@@ -154,21 +118,14 @@ async def analyze_modified_sections_with_ai(
         old_text = (await old_version.read()).decode('utf-8')
         new_text = (await new_version.read()).decode('utf-8')
         
-        cache_key = generate_cache_key(old_text, new_text)
-        if cache_key not in document_cache:
-            await compare_sections_endpoint(
-                UploadFile(filename="old.txt", file=old_version.file),
-                UploadFile(filename="new.txt", file=new_version.file)
-            )
-        
-        cache_data = document_cache[cache_key]
+        comparison = compare_sections(old_text, new_text)
         modified_sections = {
             section_id: {
-                'old': cache_data['old_section_map'][section_id],
-                'new': cache_data['new_section_map'][section_id]
+                'old': comparison['old_section_map'][section_id],
+                'new': comparison['new_section_map'][section_id]
             }
-            for section_id in cache_data['common_sections']
-            if cache_data['old_section_map'][section_id] != cache_data['new_section_map'][section_id]
+            for section_id in comparison['common_sections']
+            if comparison['old_section_map'][section_id] != comparison['new_section_map'][section_id]
         }
 
         analysis_results = analyze_modified_sections(modified_sections)
