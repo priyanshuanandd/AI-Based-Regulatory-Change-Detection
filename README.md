@@ -25,6 +25,9 @@ This AI-powered tool automates the initial steps of regulatory document comparis
 A comprehensive document analysis system that identifies and analyzes differences between document versions using AI-powered insights. Perfect for regulatory documents, contracts, policies, and any text-based content that requires detailed change tracking.
 
 ## ✨ Features
+### User Interface 
+![Flowchart 1](https://i.postimg.cc/kVZpNSZZ/img.png)
+![Flowchart 2](https://i.postimg.cc/pmW4PRz0/img2.png)
 
 ### Addressing Regulatory Compliance Needs
 - **Automated Change Detection**: Eliminate manual line-by-line comparison
@@ -47,7 +50,7 @@ A comprehensive document analysis system that identifies and analyzes difference
 4. **Modified Content Analysis**: Impact assessment of changed sections
 
 ## 🏗️ Architecture
-
+![image.png](https://postimg.cc/GHGKVNfX)
 The project consists of two main components:
 
 ### Backend (FastAPI)
@@ -55,7 +58,7 @@ The project consists of two main components:
 - Integration with local LLM (Ollama)
 - Advanced text preprocessing and comparison algorithms
 - Structured data models using Pydantic
-
+![Screenshot-2025-06-08-143813.png](https://postimg.cc/nC4K0ms5)
 ### Frontend (Streamlit)
 - Interactive web interface
 - Progressive workflow with step-by-step guidance
